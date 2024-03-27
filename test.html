@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrinterWEB</title>
+</head>
+
+<body>
+    <h1>Prueba de la librería</h1>
+    <h3>Para iniciar el test haga clic en el botón de Imprimir</h3>
+    <button id="btnPrint">Imprimir</button>
+    <h4 id="status">En espera</h4>
+    <script src="./dist/printerWEB.js"></script>
+    <script>
+        document.getElementById("btnPrint").addEventListener("click", async () => {
+            let printer = new PrinterWEB.Create();
+            printer.Init().then(async () => {
+                document.getElementById("status").innerText = "Imprimiendo...";
+                printer.Logo();
+                printer.AddTextLine("Hola");
+                printer.AddText("Agregando...");
+                printer.AddText("Enseguida");
+                printer.NewLine();
+                printer.AddTextLine("Imagen de 240x240");
+                await printer.Image("https://cdn.shopify.com/s/files/1/0401/1835/4086/files/Favicon_240x240_b313c56e-2e80-4315-a81f-d93b99b8a5cb_480x480.jpg?v=1606895270");
+                printer.AddTextLine("Imagen chica");
+                await printer.Image("https://srv.latostadora.com/designall.dll/tu_logo_aqui--i:14138514211171413851;d:1421117;w:100;b:000000;m:1.jpg");
+                printer.NewLines(5);
+                printer.AddTextLine("Ahora unos codigos de barra Code39");
+                printer.NewLines(3);
+                printer.Code39("123555");
+                printer.NewLines(5);
+                printer.AddTextLine("Ahora unos codigos de barra Code128");
+                printer.NewLines(3);
+                printer.Code128("123555");
+                printer.NewLines(5);
+                printer.AddTextLine("qr code");
+                printer.NewLines(3);
+                printer.QRUrl("https://srv.latostadora.com/designall.dll/tu_logo_aqui--i:14138514211171413851;d:1421117;w:100;b:000000;m:1.jpg");
+                printer.Cut();
+                printer.Print().then(() => {
+                    document.getElementById("status").innerText = "Listo";
+                }).catch((err) => {
+                    document.getElementById("status").innerText = err;
+                });
+            }).catch((err) => {
+                document.getElementById("status").innerText = err;
+            });
+        });
+    </script>
+</body>
+
+</html>

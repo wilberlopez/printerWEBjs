@@ -1,0 +1,19 @@
+{
+  "name": "printerwebjs",
+  "version": "1.0.0",
+  "description": "Librería para utilizar la impresora ESC/POS desde el navegador",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "npx webpack"
+  },
+  "author": "Wilber Lopez <wilber.lm12@gmail.com>",
+  "license": "ISC",
+  "private": true,
+  "dependencies": {
+    "@microsoft/signalr": "^8.0.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
+  }
+}
