@@ -5,49 +5,339 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrinterWEB</title>
+    <link rel="stylesheet" href="./highlight/styles/default.css" />
+    <script src="./highlight/highlight.js"></script>
+    <script>hljs.highlightAll();</script>
 </head>
 
 <body>
-    <h1>Prueba de la librería</h1>
-    <h3>Para iniciar el test haga clic en el botón de Imprimir</h3>
-    <button id="btnPrint">Imprimir</button>
-    <h4 id="status">En espera</h4>
-    <script src="./dist/printerWEB.js"></script>
-    <script>
-        document.getElementById("btnPrint").addEventListener("click", async () => {
-            let printer = new PrinterWEB.Create();
-            printer.Init().then(async () => {
-                document.getElementById("status").innerText = "Imprimiendo...";
+    <h1>Demo de librería PrinterWEB</h1>
+    <pre>
+        <code>
+            //Una vez se haya importado la librería printerWEB.js
+
+            //Se puede crear la instancia de la impresora, con el puerto por defecto 1412
+            const printer = new PrinterWEB.Create();
+
+            //O se puede crear la instancia de la impresora con el puerto personalizado
+            const printer = new PrinterWEB.Create(1234);
+
+            //Se inicia la impresora
+            try {
+                await printer.Init();
+            } catch (err) {
+                document.getElementById("status").innerText = err;
+            }
+
+            if (printer.initialized) {
+                document.getElementById("status").innerText = "Impresora conectada";
+
+                //Se puede consultar el estado de la impresora
+                const status = await printer.GetStatus();
+                console.log(status);
+
+                //Imprimir el logo de forma local, para lo cual se debe de cambiar el logo que viene por defecto en la carpeta del servicio de impresora
                 printer.Logo();
-                printer.AddTextLine("Hola");
-                printer.AddText("Agregando...");
-                printer.AddText("Enseguida");
+
+                //Agregar texto con salto de línea
+                printer.AddTextLine("Este texto tiene salto");
+
+                //Agregar texto sin salto de línea
+                printer.AddText("Agregando... ");
+                printer.AddText("texto");
                 printer.NewLine();
-                printer.AddTextLine("Imagen de 240x240");
+
+                //Agregar salto de línea
+                printer.AddText("Salto... ");
+                printer.NewLine();
+                printer.AddTextLine("1 linea");
+
+                //Agregar salto de lineas
+                printer.AddText("Salto... ");
+                printer.NewLines(5);
+                printer.AddTextLine("5 lineas");
+                printer.NewLines(5);
+
+                //Texto en negritas
+                printer.AddTextBold("Este texto es en negritas");
+                printer.NewLine();
+                printer.AddText("Texto normal -> ");
+                printer.TextBoldOn();
+                printer.AddText("Texto en negritas");
+                printer.TextBoldOff();
+                printer.NewLine();
+
+                //Texto subrayado
+                printer.AddTextUnderline("Este texto es subrayado");
+                printer.NewLine();
+                printer.AddText("Texto normal -> ");
+                printer.TextUnderlineOn();
+                printer.AddText("Texto subrayado");
+                printer.TextUnderlineOff();
+                printer.NewLine();
+
+                printer.NewLines(5);
+
+                //Aliniar texto a la derecha
+                printer.AlignRight();
+                printer.AddTextLine("Texto alineado a la derecha");
+
+                //Aliniar texto al centro
+                printer.AlignCenter();
+                printer.AddTextLine("Texto alineado al centro");
+
+                //Aliniar texto a la izquierda
+                printer.AlignLeft();
+                printer.AddTextLine("Texto alineado a la izquierda");
+
+                printer.NewLines(5);
+
+                //Modo ampliado
+                printer.ExpandedModeOn();
+                printer.AddTextLine("Este texto esta en modo ampliado");
+                printer.ExpandedModeOff();
+
+                printer.NewLines(5);
+
+                //Modo condensado
+                printer.CondensedModeOn();
+                printer.AddTextLine("Este texto esta en modo condensado");
+                printer.CondensedModeOff();
+
+                printer.NewLines(5);
+
+                //Tamaño de fuente 3
+                printer.DoubleWidth3();
+                printer.AddTextLine("Tamano de fuente 3");
+
+                //Tamaño de fuente 2
+                printer.DoubleWidth2();
+                printer.AddTextLine("Tamano de fuente 2");
+
+                //Tamaño de fuente normal
+                printer.NormalWidth();
+                printer.AddTextLine("Tamano de fuente normal");
+                printer.NewLines(5);
+
+                //Imprimir una imagen de una url
+                //debe tener muy en cuenta el tamanio de la imagen, no se recomienda un tamaño por encima de 800x800
                 await printer.Image("https://cdn.shopify.com/s/files/1/0401/1835/4086/files/Favicon_240x240_b313c56e-2e80-4315-a81f-d93b99b8a5cb_480x480.jpg?v=1606895270");
-                printer.AddTextLine("Imagen chica");
-                await printer.Image("https://srv.latostadora.com/designall.dll/tu_logo_aqui--i:14138514211171413851;d:1421117;w:100;b:000000;m:1.jpg");
+
+                printer.AlignCenter();
                 printer.NewLines(5);
-                printer.AddTextLine("Ahora unos codigos de barra Code39");
-                printer.NewLines(3);
+
+                //Imprimir codigo de barra Code39
+                printer.AddTextLine("Code39");
                 printer.Code39("123555");
+
+                printer.AlignCenter();
                 printer.NewLines(5);
-                printer.AddTextLine("Ahora unos codigos de barra Code128");
-                printer.NewLines(3);
+
+                //Imprimir codigo de barra Code128
+                printer.AddTextLine("Code128");
                 printer.Code128("123555");
+
+                printer.AlignCenter();
                 printer.NewLines(5);
-                printer.AddTextLine("qr code");
-                printer.NewLines(3);
-                printer.QRUrl("https://srv.latostadora.com/designall.dll/tu_logo_aqui--i:14138514211171413851;d:1421117;w:100;b:000000;m:1.jpg");
+
+                //Imprimir un qr que contiene una url, el primer parametro es la url y el segundo parametro es el tamaño que va del 1 al 8
+                //tamaño por defecto es 5
+                printer.AddTextLine("QRUrl");
+                printer.QRUrl("https://www.google.com/", 5);
+
+                printer.AlignCenter();
+                printer.NewLines(5);
+
+                //Imprimir un qr que contiene una cadena de texto, el primer parametro es el texto y el segundo parametro es el tamaño que va del 1 al 14
+                //tamaño por defecto es 8
+                printer.AddTextLine("QRText");
+                printer.QRText("Hola, prueba", 8);
+
+                //Cortar papel
                 printer.Cut();
-                printer.Print().then(() => {
-                    document.getElementById("status").innerText = "Listo";
+
+                //Abrir cajón de dinero
+                printer.OpenDrawer();
+
+                //Imprimir
+                await printer.Print().then(() => {
+                    document.getElementById("status").innerText = "Se ha imprimido";
                 }).catch((err) => {
                     document.getElementById("status").innerText = err;
                 });
-            }).catch((err) => {
+
+                //Limpiar buffer de impresota
+                printer.Clear();
+
+                //Finalizar impresión
+                await printer.Finish();
+
+                //También se puede seguir imprimiendo, se limpia el buffer de la impresora e ingresa la nueva información
+                //Finalizar la impresión, es desconectarse de la impresora, no es necesario estar desconectando por cada impresión si se va a tener siempre
+                //abierta la venta de impresión, para ello existe el limpiar buffer
+            }
+      </code>
+    </pre>
+
+    <h3>Para iniciar el test haga clic en el botón de Imprimir</h3>
+    <button id="btnPrint">Imprimir</button>
+    <h4 id="status">En espera</h4>
+
+    <script src="./dist/printerWEB.js"></script>
+    <script>
+        const printer = new PrinterWEB.Create();
+        document.getElementById("btnPrint").addEventListener("click", async () => {
+
+            //Se inicia la impresora
+            try {
+                await printer.Init();
+            } catch (err) {
                 document.getElementById("status").innerText = err;
-            });
+            }
+
+            if (printer.initialized) {
+                document.getElementById("status").innerText = "Impresora conectada";
+
+                //Se puede consultar el estado de la impresora
+                const status = await printer.GetStatus();
+                console.log(status);
+
+                //Imprimir el logo de forma local, para lo cual se debe de cambiar el logo que viene por defecto en la carpeta del servicio de impresora
+                printer.Logo();
+
+                //Agregar texto con salto de línea
+                printer.AddTextLine("Este texto tiene salto");
+
+                //Agregar texto sin salto de línea
+                printer.AddText("Agregando... ");
+                printer.AddText("texto");
+                printer.NewLine();
+
+                //Agregar salto de línea
+                printer.AddText("Salto... ");
+                printer.NewLine();
+                printer.AddTextLine("1 linea");
+
+                //Agregar salto de lineas
+                printer.AddText("Salto... ");
+                printer.NewLines(5);
+                printer.AddTextLine("5 lineas");
+                printer.NewLines(5);
+
+                //Texto en negritas
+                printer.AddTextBold("Este texto es en negritas");
+                printer.NewLine();
+                printer.AddText("Texto normal -> ");
+                printer.TextBoldOn();
+                printer.AddText("Texto en negritas");
+                printer.TextBoldOff();
+                printer.NewLine();
+
+                //Texto subrayado
+                printer.AddTextUnderline("Este texto es subrayado");
+                printer.NewLine();
+                printer.AddText("Texto normal -> ");
+                printer.TextUnderlineOn();
+                printer.AddText("Texto subrayado");
+                printer.TextUnderlineOff();
+                printer.NewLine();
+
+                printer.NewLines(5);
+
+                //Aliniar texto a la derecha
+                printer.AlignRight();
+                printer.AddTextLine("Texto alineado a la derecha");
+
+                //Aliniar texto al centro
+                printer.AlignCenter();
+                printer.AddTextLine("Texto alineado al centro");
+
+                //Aliniar texto a la izquierda
+                printer.AlignLeft();
+                printer.AddTextLine("Texto alineado a la izquierda");
+
+                printer.NewLines(5);
+
+                //Modo ampliado
+                printer.ExpandedModeOn();
+                printer.AddTextLine("Este texto esta en modo ampliado");
+                printer.ExpandedModeOff();
+
+                printer.NewLines(5);
+
+                //Modo condensado
+                printer.CondensedModeOn();
+                printer.AddTextLine("Este texto esta en modo condensado");
+                printer.CondensedModeOff();
+
+                printer.NewLines(5);
+
+                //Tamaño de fuente 3
+                printer.DoubleWidth3();
+                printer.AddTextLine("Tamano de fuente 3");
+
+                //Tamaño de fuente 2
+                printer.DoubleWidth2();
+                printer.AddTextLine("Tamano de fuente 2");
+
+                //Tamaño de fuente normal
+                printer.NormalWidth();
+                printer.AddTextLine("Tamano de fuente normal");
+                printer.NewLines(5);
+
+                //Imprimir una imagen de una url
+                //debe tener muy en cuenta el tamanio de la imagen, no se recomienda un tamaño por encima de 800x800
+                await printer.Image("https://cdn.shopify.com/s/files/1/0401/1835/4086/files/Favicon_240x240_b313c56e-2e80-4315-a81f-d93b99b8a5cb_480x480.jpg?v=1606895270");
+
+                printer.AlignCenter();
+                printer.NewLines(5);
+
+                //Imprimir codigo de barra Code39
+                printer.AddTextLine("Code39");
+                printer.Code39("123555");
+
+                printer.AlignCenter();
+                printer.NewLines(5);
+
+                //Imprimir codigo de barra Code128
+                printer.AddTextLine("Code128");
+                printer.Code128("123555");
+
+                printer.AlignCenter();
+                printer.NewLines(5);
+
+                //Imprimir un qr que contiene una url, el primer parametro es la url y el segundo parametro es el tamaño que va del 1 al 8
+                //tamaño por defecto es 5
+                printer.AddTextLine("QRUrl");
+                printer.QRUrl("https://www.google.com/", 5);
+
+                printer.AlignCenter();
+                printer.NewLines(5);
+
+                //Imprimir un qr que contiene una cadena de texto, el primer parametro es el texto y el segundo parametro es el tamaño que va del 1 al 14
+                //tamaño por defecto es 8
+                printer.AddTextLine("QRText");
+                printer.QRText("Hola, prueba", 8);
+
+                //Cortar papel
+                printer.Cut();
+
+                //Abrir cajón de dinero
+                printer.OpenDrawer();
+
+                //Imprimir
+                await printer.Print().then(() => {
+                    document.getElementById("status").innerText = "Se ha imprimido";
+                }).catch((err) => {
+                    document.getElementById("status").innerText = err;
+                });
+
+                //Limpiar buffer de impresota
+                printer.Clear();
+
+                //Finalizar impresión
+                await printer.Finish();
+            }
         });
     </script>
 </body>

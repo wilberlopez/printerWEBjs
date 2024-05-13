@@ -56,6 +56,10 @@ class Printer {
         }
     }
 
+    async GetStatus() {
+        return await this.conn.invoke("GetStatus");
+    }
+
     AddText(text) {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
         this.conn.send("AddText", text);
@@ -74,6 +78,86 @@ class Printer {
     NewLines(Lines) {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
         this.conn.send("NewLines", Lines);
+    }
+
+    AddTextBold(text) {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("AddTextBold", text);
+    }
+
+    TextBoldOn() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("TextBoldOn");
+    }
+
+    TextBoldOff() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("TextBoldOff");
+    }
+
+    AddTextUnderline(text) {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("AddTextUnderline", text);
+    }
+
+    TextUnderlineOn() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("TextUnderlineOn");
+    }
+
+    TextUnderlineOff() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("TextUnderlineOff");
+    }
+
+    AlignLeft() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("AlignLeft");
+    }
+
+    AlignCenter() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("AlignCenter");
+    }
+
+    AlignRight() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("AlignRight");
+    }
+
+    ExpandedModeOn() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("ExpandedModeOn");
+    }
+
+    ExpandedModeOff() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("ExpandedModeOff");
+    }
+
+    CondensedModeOn() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("CondensedModeOn");
+    }
+
+    CondensedModeOff() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("CondensedModeOff");
+    }
+
+    NormalWidth() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("NormalWidth");
+    }
+
+    DoubleWidth2() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("DoubleWidth2");
+    }
+
+    DoubleWidth3() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("DoubleWidth3");
     }
 
     Logo() {
@@ -96,14 +180,24 @@ class Printer {
         this.conn.send("Code128", code);
     }
 
-    QRUrl(url) {
+    QRUrl(url, size = 5) {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
-        this.conn.send("QRUrl", url);
+        this.conn.send("QRUrl", url, size);
+    }
+
+    QRText(text, size = 8) {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("QRText", text, size);
     }
 
     Cut() {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
         this.conn.send("Cut");
+    }
+
+    OpenDrawer() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("OpenDrawer");
     }
 
     async Print() {
@@ -113,6 +207,10 @@ class Printer {
         if (result != "OK") throw new Error('No se pudo imprimir. Trace: ' + result);
     }
 
+    Clear() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("Clear");
+    }
 }
 
 export function Create(port = 1412) {
