@@ -9,7 +9,7 @@
   },
   "author": "Wilber Lopez <wilber.lm12@gmail.com>",
   "license": "ISC",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@microsoft/signalr": "^8.0.0"
   },
