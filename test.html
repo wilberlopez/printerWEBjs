@@ -17,10 +17,10 @@
             //Una vez se haya importado la librería printerWEB.js
 
             //Se puede crear la instancia de la impresora, con el puerto por defecto 1412
-            const printer = new PrinterWEB.Create();
+            const printer = PrinterWEB.CreatePrinter();
 
             //O se puede crear la instancia de la impresora con el puerto personalizado
-            const printer = new PrinterWEB.Create(1234);
+            const printer = PrinterWEB.CreatePrinter(1234);
 
             //Se inicia la impresora
             try {
@@ -185,7 +185,7 @@
 
     <script src="./dist/printerWEB.js"></script>
     <script>
-        const printer = new PrinterWEB.Create();
+        const printer = PrinterWEB.CreatePrinter();
         document.getElementById("btnPrint").addEventListener("click", async () => {
 
             //Se inicia la impresora

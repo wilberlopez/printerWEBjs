@@ -1,7 +1,7 @@
 {
   "name": "printerwebjs",
   "version": "1.0.0",
-  "description": "Librería para utilizar la impresora ESC/POS desde el navegador",
+  "description": "Librería que se conecta con el servicio de impresora ESC/POS desde el navegador",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
