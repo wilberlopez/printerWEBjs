@@ -58,6 +58,11 @@ class Printer {
         return await this.conn.invoke("GetStatus");
     }
 
+    DisableChineseCharacters() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("DisableChineseCharacters");
+    }
+
     AddText(text) {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
         this.conn.send("AddText", text);

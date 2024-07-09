@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-MXnpm publish">
 
 <head>
     <meta charset="UTF-8">
@@ -56,6 +56,13 @@
                 printer.AddText("Salto... ");
                 printer.NewLines(5);
                 printer.AddTextLine("5 lineas");
+                printer.NewLines(5);
+
+                //Texto sin caracteres chinos (solo aplica si la impresora es CHINA)
+                printer.DisableChineseCharacters();
+                printer.AddTextLine("Texto sin caracteres chinos");
+                printer.AddTextLine("MIN: aá eé ií oó uú ñ");
+                printer.AddTextLine("MAY: AÁ EÉ IÍ OÓ UÚ Ñ");
                 printer.NewLines(5);
 
                 //Texto en negritas
@@ -222,6 +229,13 @@
                 printer.AddText("Salto... ");
                 printer.NewLines(5);
                 printer.AddTextLine("5 lineas");
+                printer.NewLines(5);
+
+                //Texto sin caracteres chinos (solo aplica si la impresora es CHINA)
+                printer.DisableChineseCharacters();
+                printer.AddTextLine("Texto sin caracteres chinos");
+                printer.AddTextLine("MIN: aá eé ií oó uú ñ");
+                printer.AddTextLine("MAY: AÁ EÉ IÍ OÓ UÚ Ñ");
                 printer.NewLines(5);
 
                 //Texto en negritas
