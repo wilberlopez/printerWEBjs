@@ -126,6 +126,12 @@
                 printer.AddTextLine("Tamano de fuente normal");
                 printer.NewLines(5);
 
+                //Tamaño de fuente personalizado
+                printer.FontCustomSize(2, 3);
+                printer.AddTextLine("Tamano de fuente personalizado");
+                printer.FontNormalSize();
+                printer.NewLines(5);
+
                 //Imprimir una imagen de una url
                 //debe tener muy en cuenta el tamanio de la imagen, no se recomienda un tamaño por encima de 800x800
                 await printer.Image("https://cdn.shopify.com/s/files/1/0401/1835/4086/files/Favicon_240x240_b313c56e-2e80-4315-a81f-d93b99b8a5cb_480x480.jpg?v=1606895270");
@@ -297,6 +303,12 @@
                 //Tamaño de fuente normal
                 printer.NormalWidth();
                 printer.AddTextLine("Tamano de fuente normal");
+                printer.NewLines(5);
+
+                //Tamaño de fuente personalizado
+                printer.FontCustomSize(2, 3);
+                printer.AddTextLine("Tamano de fuente personalizado");
+                printer.FontNormalSize();
                 printer.NewLines(5);
 
                 //Imprimir una imagen de una url

@@ -148,6 +148,16 @@ class Printer {
         this.conn.send("CondensedModeOff");
     }
 
+    FontNormalSize() {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("FontNormalSize");
+    }
+
+    FontCustomSize(width = 1, heigth = 1) {
+        if (!this.initialized) throw new Error('No se ha inicializado la impresora');
+        this.conn.send("FontCustomSize", width, heigth);
+    }
+
     NormalWidth() {
         if (!this.initialized) throw new Error('No se ha inicializado la impresora');
         this.conn.send("NormalWidth");
