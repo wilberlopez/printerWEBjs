@@ -1,4 +1,4 @@
-const signalR = require("@microsoft/signalr");
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 class Printer {
     conn = null;
@@ -229,6 +229,6 @@ class Printer {
 export const CreatePrinter = (port = 1412) => {
     if (!Number.isInteger(port)) throw new Error('El puerto debe ser un entero');
     if (port < 1 || port > 65535) throw new Error('El puerto debe estar entre 1 y 65535');
-    let connection = new signalR.HubConnectionBuilder().withUrl(`http://localhost:${port}/printer`, { withCredentials: false }).build();
+    let connection = new HubConnectionBuilder().withUrl(`http://localhost:${port}/printer`, { withCredentials: false }).build();
     return new Printer(connection);
 }
